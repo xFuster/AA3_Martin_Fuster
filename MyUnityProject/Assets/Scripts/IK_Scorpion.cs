@@ -35,33 +35,39 @@ public class IK_Scorpion : MonoBehaviour
     public Vector3 newBodyPosition;
     public float initialY;
     float timer = 0.5f;
-
+    bool animTimer = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        _myController.InitLegs(legs,futureLegBases,legTargets);
+        _myController.InitLegs(legs, futureLegBases, legTargets);
         _myController.InitTail(tail);
         initialY = joints[0].transform.position.y;
-       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (animTime < 0)
+        if (animTimer)
         {
-            UpdateBodyRotation();
+            startTimer();
+        }
+        if (timer < 0)
+        {
+            
+
+           UpdateBodyRotation();
         }
         if (animPlaying)
             animTime += Time.deltaTime;
 
         NotifyTailTarget();
-        
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             NotifyStartWalk();
             animTime = 0;
+            animTimer = true;
             newBodyPosition = Body.position;
             animPlaying = true;
         }
@@ -78,9 +84,9 @@ public class IK_Scorpion : MonoBehaviour
         }
 
         _myController.UpdateIK();
-        
+
     }
-    
+
     //Function to send the tail target transform to the dll
     public void NotifyTailTarget()
     {
@@ -90,24 +96,19 @@ public class IK_Scorpion : MonoBehaviour
     //Trigger Function to start the walk animation
     public void NotifyStartWalk()
     {
-
         _myController.NotifyStartWalk();
     }
 
     // Funcion joseada cambiar cosas
     private void updateBodyPosition()
     {
-        //Avoid the first jump
-        if (initialPosition.y != joints[0].transform.localPosition.y)
+        if (initialPosition.y != joints[0].transform.localPosition.y) //ENcuen
         {
-            //ESTO NO SETOCA
-            Debug.Log("CAMBIO!");
-            tmp.y = joints[0].transform.localPosition.y - initialY;
+            tmp.y = joints[0].transform.position.y - initialY;
             initialPosition = joints[0].transform.localPosition;
-
-            //Sum or decrement to the body
         }
         newBodyPosition = Body.localPosition;
+        newBodyPosition.y = tmp.y;
         Body.localPosition = newBodyPosition;
     }
 
@@ -115,7 +116,7 @@ public class IK_Scorpion : MonoBehaviour
     {
         float side1Legs = 0f;
         float side2Legs = 0f;
-        
+
         for (int i = 0; i < 6; i++)
         {
             if (i < 3)
@@ -129,20 +130,17 @@ public class IK_Scorpion : MonoBehaviour
         }
         if (side1Legs == side2Legs)
         {
-            Debug.Log("PSOE!");
             Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, 0);
-        }
-        else if (side1Legs > side2Legs)
-        {
-            Debug.Log("PODEMOS!");
-            float diff = side1Legs - side2Legs;
-            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z + diff * 15);
         }
         else if (side2Legs > side1Legs)
         {
-            Debug.Log("PP!");
             float diff = side2Legs - side1Legs;
-            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z - diff * 15);
+            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z + diff * 5);
+        }
+        else if (side1Legs > side2Legs)
+        {
+            float diff = side1Legs - side2Legs;
+            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z - diff * 5);
         }
     }
 
