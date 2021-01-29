@@ -54,8 +54,6 @@ public class IK_Scorpion : MonoBehaviour
         }
         if (timer < 0)
         {
-            
-
            UpdateBodyRotation();
         }
         if (animPlaying)
@@ -82,9 +80,7 @@ public class IK_Scorpion : MonoBehaviour
             Body.position = EndPos.position;
             animPlaying = false;
         }
-
         _myController.UpdateIK();
-
     }
 
     //Function to send the tail target transform to the dll
@@ -99,10 +95,9 @@ public class IK_Scorpion : MonoBehaviour
         _myController.NotifyStartWalk();
     }
 
-    // Funcion joseada cambiar cosas
     private void updateBodyPosition()
     {
-        if (initialPosition.y != joints[0].transform.localPosition.y) //ENcuen
+        if (initialPosition.y != joints[0].transform.localPosition.y)
         {
             tmp.y = joints[0].transform.position.y - initialY;
             initialPosition = joints[0].transform.localPosition;
@@ -114,33 +109,34 @@ public class IK_Scorpion : MonoBehaviour
 
     private void UpdateBodyRotation()
     {
-        float side1Legs = 0f;
-        float side2Legs = 0f;
+        Vector3 rightLegs = new Vector3(0,0,0);
+        Vector3 leftLegs = new Vector3(0,0,0);
 
         for (int i = 0; i < 6; i++)
         {
-            if (i < 3)
+            if (i == 0 || i == 2 || i == 4)
             {
-                side1Legs += joints[i].transform.position.y;
+                rightLegs += joints[i].transform.position;
             }
-            else if (i > 2 && i < 6)
+            else if (i == 1 || i == 3 || i == 5)
             {
-                side2Legs += joints[i].transform.position.y;
+                leftLegs += joints[i].transform.position;
             }
         }
-        if (side1Legs == side2Legs)
+
+        if (rightLegs.y == leftLegs.y)
         {
             Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, 0);
         }
-        else if (side2Legs > side1Legs)
+        else if (leftLegs.y > rightLegs.y)
         {
-            float diff = side2Legs - side1Legs;
-            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z + diff * 5);
+            float legHeight = leftLegs.y - rightLegs.y;
+            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z + legHeight * 5);
         }
-        else if (side1Legs > side2Legs)
+        else if (rightLegs.y > leftLegs.y)
         {
-            float diff = side1Legs - side2Legs;
-            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z - diff * 5);
+            float legHeight = rightLegs.y - leftLegs.y;
+            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z - legHeight * 5);
         }
     }
 
