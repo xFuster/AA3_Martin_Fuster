@@ -1426,6 +1426,7 @@ MonoBehaviour:
   EndPos: {fileID: 1752872857}
   tailTarget: {fileID: 1938829484}
   tail: {fileID: 569481216}
+  fillter: {fileID: 1748413043}
   legs:
   - {fileID: 586577180}
   - {fileID: 1389524766}
@@ -3127,6 +3128,29 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &635610714 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100096, guid: 320b1c2af77554f99a1658df4a6d3d5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 208784846}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &635610715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635610714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488ca30cd5b30a740b1a728c3da97094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ball: {fileID: 1938829485}
+  Robot1: {fileID: 1431872044}
+  Robot2: {fileID: 635610714}
+  Robot3: {fileID: 1751449210}
+  Robot4: {fileID: 1011047003}
 --- !u!1 &635854159 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 865907604773395664, guid: c9ae8800298c5904a805978e2ff06201,
@@ -5155,8 +5179,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -453, y: 94}
-  m_SizeDelta: {x: -1008, y: -398}
+  m_AnchoredPosition: {x: -434.88, y: 94}
+  m_SizeDelta: {x: -971.76294, y: -398}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &957697838
 MonoBehaviour:
@@ -5333,6 +5357,29 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999087690}
   m_Mesh: {fileID: 4300004, guid: 1a6216de7989365449cc728647201f7e, type: 3}
+--- !u!1 &1011047003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100096, guid: 320b1c2af77554f99a1658df4a6d3d5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 871397645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1011047004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011047003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488ca30cd5b30a740b1a728c3da97094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ball: {fileID: 1938829485}
+  Robot1: {fileID: 1431872044}
+  Robot2: {fileID: 635610714}
+  Robot3: {fileID: 1751449210}
+  Robot4: {fileID: 1011047003}
 --- !u!4 &1025209994 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8005202564049026731, guid: c9ae8800298c5904a805978e2ff06201,
@@ -6482,6 +6529,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1431872046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431872044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488ca30cd5b30a740b1a728c3da97094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ball: {fileID: 1938829485}
+  Robot1: {fileID: 1431872044}
+  Robot2: {fileID: 635610714}
+  Robot3: {fileID: 1751449210}
+  Robot4: {fileID: 1011047003}
 --- !u!1 &1476907251
 GameObject:
   m_ObjectHideFlags: 0
@@ -7509,6 +7573,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748413041}
   m_CullTransparentMesh: 0
+--- !u!1 &1751449210 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100096, guid: 320b1c2af77554f99a1658df4a6d3d5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 723169829}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1751449211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751449210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488ca30cd5b30a740b1a728c3da97094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ball: {fileID: 1938829485}
+  Robot1: {fileID: 1431872044}
+  Robot2: {fileID: 635610714}
+  Robot3: {fileID: 1751449210}
+  Robot4: {fileID: 1011047003}
 --- !u!1 &1752872856
 GameObject:
   m_ObjectHideFlags: 0
@@ -8147,6 +8234,8 @@ MonoBehaviour:
   ballTarget: {fileID: 1418656077}
   gol: 0
   shot: 0
+  Timer: 0
+  timerActivated: 0
 --- !u!54 &1938829486
 Rigidbody:
   m_ObjectHideFlags: 0
