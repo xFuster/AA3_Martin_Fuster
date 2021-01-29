@@ -35,33 +35,37 @@ public class IK_Scorpion : MonoBehaviour
     public Vector3 newBodyPosition;
     public float initialY;
     float timer = 0.5f;
-
+    bool animTimer = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        _myController.InitLegs(legs,futureLegBases,legTargets);
+        _myController.InitLegs(legs, futureLegBases, legTargets);
         _myController.InitTail(tail);
         initialY = joints[0].transform.position.y;
-       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (animTime < 0)
+        if (animTimer)
         {
-            UpdateBodyRotation();
+            startTimer();
+        }
+        if (timer < 0)
+        {
+           UpdateBodyRotation();
         }
         if (animPlaying)
             animTime += Time.deltaTime;
 
         NotifyTailTarget();
-        
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             NotifyStartWalk();
             animTime = 0;
+            animTimer = true;
             newBodyPosition = Body.position;
             animPlaying = true;
         }
@@ -76,11 +80,9 @@ public class IK_Scorpion : MonoBehaviour
             Body.position = EndPos.position;
             animPlaying = false;
         }
-
         _myController.UpdateIK();
-        
     }
-    
+
     //Function to send the tail target transform to the dll
     public void NotifyTailTarget()
     {
@@ -90,59 +92,51 @@ public class IK_Scorpion : MonoBehaviour
     //Trigger Function to start the walk animation
     public void NotifyStartWalk()
     {
-
         _myController.NotifyStartWalk();
     }
 
-    // Funcion joseada cambiar cosas
     private void updateBodyPosition()
     {
-        //Avoid the first jump
         if (initialPosition.y != joints[0].transform.localPosition.y)
         {
-            //ESTO NO SETOCA
-            Debug.Log("CAMBIO!");
-            tmp.y = joints[0].transform.localPosition.y - initialY;
+            tmp.y = joints[0].transform.position.y - initialY;
             initialPosition = joints[0].transform.localPosition;
-
-            //Sum or decrement to the body
         }
         newBodyPosition = Body.localPosition;
+        newBodyPosition.y = tmp.y;
         Body.localPosition = newBodyPosition;
     }
 
     private void UpdateBodyRotation()
     {
-        float side1Legs = 0f;
-        float side2Legs = 0f;
-        
+        Vector3 rightLegs = new Vector3(0,0,0);
+        Vector3 leftLegs = new Vector3(0,0,0);
+
         for (int i = 0; i < 6; i++)
         {
-            if (i < 3)
+            if (i == 0 || i == 2 || i == 4)
             {
-                side1Legs += joints[i].transform.position.y;
+                rightLegs += joints[i].transform.position;
             }
-            else if (i > 2 && i < 6)
+            else if (i == 1 || i == 3 || i == 5)
             {
-                side2Legs += joints[i].transform.position.y;
+                leftLegs += joints[i].transform.position;
             }
         }
-        if (side1Legs == side2Legs)
+
+        if (rightLegs.y == leftLegs.y)
         {
-            Debug.Log("PSOE!");
             Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, 0);
         }
-        else if (side1Legs > side2Legs)
+        else if (leftLegs.y > rightLegs.y)
         {
-            Debug.Log("PODEMOS!");
-            float diff = side1Legs - side2Legs;
-            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z + diff * 15);
+            float legHeight = leftLegs.y - rightLegs.y;
+            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z + legHeight * 5);
         }
-        else if (side2Legs > side1Legs)
+        else if (rightLegs.y > leftLegs.y)
         {
-            Debug.Log("PP!");
-            float diff = side2Legs - side1Legs;
-            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z - diff * 15);
+            float legHeight = rightLegs.y - leftLegs.y;
+            Body.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, transform.localRotation.z - legHeight * 5);
         }
     }
 
