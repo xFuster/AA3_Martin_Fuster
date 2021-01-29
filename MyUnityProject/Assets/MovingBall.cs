@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MovingBall : MonoBehaviour
@@ -18,6 +19,8 @@ public class MovingBall : MonoBehaviour
     public GameObject ballTarget;
     public bool gol = false;
     public bool shot = false;
+    public float Timer;
+    public bool timerActivated;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,9 +37,18 @@ public class MovingBall : MonoBehaviour
         //get the Input from Vertical axis
         float verticalInput = Input.GetAxis("Vertical");
 
+        if(timerActivated == true)
+        {
+            Timer += Time.deltaTime;
+        }
         //update the position
         // transform.position = transform.position + new Vector3(-horizontalInput * _movementSpeed * Time.deltaTime, verticalInput * _movementSpeed * Time.deltaTime, 0);
-
+        if(Timer > 3)
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
+               
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -52,6 +64,7 @@ public class MovingBall : MonoBehaviour
             _dir = ballTarget.transform.position - this.transform.position;
             _dir = _dir.normalized;
             rb.AddForceAtPosition(_dir * fuerzaSlider.value, this.transform.position, ForceMode.Impulse);
+            timerActivated = true;
 
         }
         _myOctopus.NotifyShoot();

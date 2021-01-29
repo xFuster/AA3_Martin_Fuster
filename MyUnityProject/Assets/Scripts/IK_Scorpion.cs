@@ -21,7 +21,7 @@ public class IK_Scorpion : MonoBehaviour
     [Header("Tail")]
     public Transform tailTarget;
     public Transform tail;
-
+    public Image fillter;
     [Header("Legs")]
     public Transform[] legs;
     public Transform[] legTargets;
@@ -38,7 +38,7 @@ public class IK_Scorpion : MonoBehaviour
     public Slider slider;
     float timer = 0.5f;
     bool animTimer = false;
-
+    bool canPress = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,24 +65,40 @@ public class IK_Scorpion : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
-            if (slider.value == 100)
+            if (canPress == true)
             {
-                upOrDown = false;
+                if (slider.value == 100)
+                {
+                    upOrDown = false;
+                }
+                if (slider.value == 0)
+                {
+                    upOrDown = true;
+                }
+                if (upOrDown == true)
+                {
+                    slider.value++;
+                }
+                else
+                {
+                    slider.value--;
+                }
+                if (slider.value < 30)
+                {
+                    fillter.color = Color.yellow;
+                }
+                else if (slider.value < 70)
+                {
+                    fillter.color = Color.green;
+
+                }
+                else
+                {
+                    fillter.color = Color.red;
+
+                }
             }
-            if(slider.value == 0)
-            {
-                upOrDown = true;
-            }
-            if (upOrDown == true)
-            {
-                slider.value++;
-            }
-            else
-            {
-                slider.value--;
-            }
-            
-         
+
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -91,6 +107,7 @@ public class IK_Scorpion : MonoBehaviour
             animTimer = true;
             newBodyPosition = Body.position;
             animPlaying = true;
+            canPress = false;
         }
         if (animTime < animDuration)
         {
