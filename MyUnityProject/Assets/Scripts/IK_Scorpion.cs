@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using OctopusController;
+using UnityEngine.UI;
 
 public class IK_Scorpion : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class IK_Scorpion : MonoBehaviour
     public Transform[] legTargets;
     public Transform[] futureLegBases;
 
-
+    bool upOrDown = true;
     // Cambiar nombres variables
     [Header("Body Movement")]
     public Vector3 initialPosition;
@@ -34,6 +35,7 @@ public class IK_Scorpion : MonoBehaviour
     public Vector3 tmp;
     public Vector3 newBodyPosition;
     public float initialY;
+    public Slider slider;
     float timer = 0.5f;
     bool animTimer = false;
 
@@ -61,7 +63,28 @@ public class IK_Scorpion : MonoBehaviour
 
         NotifyTailTarget();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (slider.value == 100)
+            {
+                upOrDown = false;
+            }
+            if(slider.value == 0)
+            {
+                upOrDown = true;
+            }
+            if (upOrDown == true)
+            {
+                slider.value++;
+            }
+            else
+            {
+                slider.value--;
+            }
+            
+         
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             NotifyStartWalk();
             animTime = 0;
@@ -69,7 +92,6 @@ public class IK_Scorpion : MonoBehaviour
             newBodyPosition = Body.position;
             animPlaying = true;
         }
-
         if (animTime < animDuration)
         {
             Body.position = Vector3.Lerp(StartPos.position, EndPos.position, animTime / animDuration);
